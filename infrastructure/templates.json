@@ -1,0 +1,4 @@
+{
+    "Basic Web Application (App Service)": "webapp",
+    "Containerised Application (AKS)": "aks"
+}

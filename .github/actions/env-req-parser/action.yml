@@ -1,0 +1,20 @@
+
+name: 'env-req-parser'
+description: 'Parses an Infrastructure Request Issue into output parameters that can be used for creating the environments.'
+author: 'nkpatterson'
+runs:
+  using: 'node12'
+  main: './dist/index.js'
+inputs:
+  templatePath:
+    description: "Path to JSON file containing mapping of template names to folders, e.g {'Basic Web Application': 'webapp'}"
+outputs:
+  appName:
+    description: Name of app as input by requester
+  template:
+    description: 'Refers to the template in the ./infrastructure directory [webapp,aks,default]'
+  approved:
+    description: 'Validates that the issue has an approved label applied'
+  ready:
+    description: 'Validates that the issue has an ready label applied'
+
