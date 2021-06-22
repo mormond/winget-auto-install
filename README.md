@@ -35,3 +35,6 @@ Add GitHub a secret for the service principal just created, called `AZURE_CREDEN
 1. [Add a comment in a GitHub workflow](.github/workflows/env-req-workflow.yml#L118-L123)
 1. [Share uploaded artifacts between runs](.github/workflows/env-req-workflow.yml#L164-L169)
 
+## See also
+
+Taken from https://github.com/nkpatterson/MercuryHealth-OperationsTeam and updated to use Terraform rather than ARM templates
