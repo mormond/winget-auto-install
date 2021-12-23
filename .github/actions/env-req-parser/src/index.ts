@@ -5,7 +5,11 @@ import { parseAppName, parseApps, templateForInstaller } from './parser';
 
 async function run(): Promise<void> {
     try {
+        console.log('Action starting...');
+
         const payload = github.context.payload as IssuesLabeledEvent;
+        console.log(payload);
+
 
         const approved = ((payload.label?.name || "none") === "approved");
         const ready = ((payload.label?.name || "none") === "ready");
