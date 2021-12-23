@@ -30,14 +30,13 @@ jobs:
     name: "Check Parse Outputs"
     runs-on: ubuntu-latest
     needs: parse
-
     steps:
-    - name: 'Ouputs'
-      run: |
-        echo "appName is: ${{ needs.parse.outputs.appName }}"
-        echo "template is: ${{ needs.parse.outputs.template }}"
-        echo "approved is: ${{ needs.parse.outputs.approved }}"
-        echo "ready is: ${{ needs.parse.outputs.ready }}"
+      - name: 'Ouputs'
+        run: |
+          echo 'appName is: ${{ needs.parse.outputs.appName }}
+          echo 'template is: ${{ needs.parse.outputs.template }}'
+          echo 'approved is: ${{ needs.parse.outputs.approved }}'
+          echo 'ready is: ${{ needs.parse.outputs.ready }}'
 
   plan:
     if: needs.parse.outputs.approved == 'true'
