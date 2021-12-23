@@ -36,7 +36,7 @@ describe('when parsing the body of an issue', () => {
         const appName = parseApps(body);
         expect(appName).toBe("test-key-1");
     });
-})
+//})
 
 // describe('when selecting a template', () => {
 //     it('should understand a web app', () => {
