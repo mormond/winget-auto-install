@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: 'Ouputs'
         run: |
-          echo 'appName is: ${{ needs.parse.outputs.appName }}
+          echo 'appName is: ${{ needs.parse.outputs.appName }}'
           echo 'template is: ${{ needs.parse.outputs.template }}'
           echo 'approved is: ${{ needs.parse.outputs.approved }}'
           echo 'ready is: ${{ needs.parse.outputs.ready }}'
