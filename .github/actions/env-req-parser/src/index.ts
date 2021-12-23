@@ -17,9 +17,14 @@ async function run(): Promise<void> {
         }
 
         const issueBody = payload.issue.body ?? "";
+        console.log(issueBody);
+
         const selectedApps = parseApps(issueBody);
-        const templatePath = core.getInput('templatePath');
+        console.log(selectedApps);
+
+        //const templatePath = core.getInput('templatePath');
         const template = templateForInstaller(selectedApps);
+        console.log(template);   
 
         core.setOutput('appName', parseAppName(issueBody));
         core.setOutput('template', template)
