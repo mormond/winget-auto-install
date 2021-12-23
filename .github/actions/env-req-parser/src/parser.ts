@@ -1,5 +1,13 @@
 import fs from 'fs';
 
+const apps = new Map<string, string>([
+    ['App Installer', '9NBLGGH4NNS1'],
+    ['Windows Terminal', '9N0DX20HK701'],
+    ['PowerShell', '9MZ1SNWT0N5D'],
+    ['PowerToys (Preview)', 'Microsoft.PowerToys'],
+    ['Visual Studio Code', 'XP9KHM4BK9FZ7Q'],
+]);
+
 export const parseAppName = (body: string) => {
     const result = /Application Name: (.+)/.exec(body);
     if (result && result.length > 1) {
@@ -21,16 +29,26 @@ const selectedLines: (body: string) => string[] = (body: string) => {
     return matches.map(line => /\] (.+)/.exec(line)![1]);
 }
 
-export const parseEnvironmentType = (body: string) => {
+export const parseApps = (body: string) => {
     const lines = selectedLines(body);
     if (lines.length > 0) {
-        return lines[0];
+        return lines;
     }
-    throw new Error("Could not parse environment type");
+    throw new Error("Could not parse app selection");
 };
 
-export const templateForEnvironment: (env: string, mappingFile: string | undefined) => string = (environment: string, mappingFile: string | undefined) => {
-    const data = fs.readFileSync(mappingFile ?? './templates.json', 'utf8');
-    const lookup: Record<string, string> = JSON.parse(data);
-    return lookup[environment] ?? "default";
+export const templateForInstaller = (selectedApps: string[]) => {
+
+    var temp:string = '';
+
+    selectedApps.forEach(selectedApp => {
+        temp += '@{id = "' + apps.get(selectedApp) + '"; name = "' + selectedApp + '" },';
+    });
+
+    const startString:string = 
+        'Write-Host "Installing Apps"\n' + 
+        '$apps_to_install = @(\n';
+
+    return startString + temp;
+
 }

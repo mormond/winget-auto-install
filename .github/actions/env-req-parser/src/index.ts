@@ -1,7 +1,7 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 import type { IssuesLabeledEvent } from "@octokit/webhooks-types";
-import { parseAppName, parseEnvironmentType, templateForEnvironment } from './parser';
+import { parseAppName, parseApps, templateForInstaller } from './parser';
 
 async function run(): Promise<void> {
     try {
@@ -17,9 +17,9 @@ async function run(): Promise<void> {
         }
 
         const issueBody = payload.issue.body ?? "";
-        const environmentType = parseEnvironmentType(issueBody);
+        const selectedApps = parseApps(issueBody);
         const templatePath = core.getInput('templatePath');
-        const template = templateForEnvironment(environmentType, templatePath);
+        const template = templateForInstaller(selectedApps);
 
         core.setOutput('appName', parseAppName(issueBody));
         core.setOutput('template', template)
