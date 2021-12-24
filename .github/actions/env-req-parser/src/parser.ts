@@ -48,7 +48,7 @@ export const templateForInstaller = (selectedApps: string[]) => {
     const appString: string = temp.slice(0, -1);
 
     const startString:string = 
-        'Write-Host "Installing Apps"\n' + 
+        '\nWrite-Host "Installing Apps"\n' + 
         '$apps_to_install = @(\n';
 
     const endString:string = 
