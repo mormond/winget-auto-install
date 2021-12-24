@@ -42,13 +42,29 @@ export const templateForInstaller = (selectedApps: string[]) => {
     var temp:string = '';
 
     selectedApps.forEach(selectedApp => {
-        temp += '@{id = "' + apps.get(selectedApp) + '"; name = "' + selectedApp + '" },';
+        temp += '\n  @{id = "' + apps.get(selectedApp) + '"; name = "' + selectedApp + '" },';
     });
+
+    const appString: string = temp.slice(0, -1);
 
     const startString:string = 
         'Write-Host "Installing Apps"\n' + 
         '$apps_to_install = @(\n';
 
-    return startString + temp;
+    const endString:string = 
+        '\n)\n' + 
+        'Foreach ($app in $apps_to_install) {\n' +
+        '  $listApp = winget list --exact -q $app.id\n' +        
+        '  if (![String]::Join("", $listApp).Contains($app.name)) {\n' +
+        '    Write-Host\n' + 
+        '    Write-Host "Installing:" $app.name\n' +
+        '    winget install --exact --silent --accept-package-agreements $app.id\n' +
+        '  }\n' +
+        '  else {\n' +
+        '    Write-Host "Skipping Install of" $app.name\n' +
+        '  }\n' +
+        '}\n';     
+
+    return startString + appString + endString;
 
 }
