@@ -1,8 +1,8 @@
 {
-  "name": "env-req-parser",
-  "version": "0.0.0",
+  "name": "winget-auto-install",
+  "version": "1.0.0",
   "private": true,
-  "description": "Parses an Infrastructure Request Issue into output parameters that can be used for creating the environments",
+  "description": "A demo project to show how you can use GitHub Actions to fulfill infrastructure provisioning requests with Terraform",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

@@ -1,11 +1,15 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
-import type { IssuesLabeledEvent } from "@octokit/webhooks-types";
+import type { IssuesLabeledEvent } from '@octokit/webhooks-types';
 import { parseAppName, parseApps, templateForInstaller } from './parser';
 
 async function run(): Promise<void> {
     try {
+        console.log('Action starting...');
+
         const payload = github.context.payload as IssuesLabeledEvent;
+        console.log(payload);
+
 
         const approved = ((payload.label?.name || "none") === "approved");
         const ready = ((payload.label?.name || "none") === "ready");
@@ -17,9 +21,14 @@ async function run(): Promise<void> {
         }
 
         const issueBody = payload.issue.body ?? "";
+        console.log(issueBody);
+
         const selectedApps = parseApps(issueBody);
-        const templatePath = core.getInput('templatePath');
+        console.log(selectedApps);
+
+        //const templatePath = core.getInput('templatePath');
         const template = templateForInstaller(selectedApps);
+        console.log(template);   
 
         core.setOutput('appName', parseAppName(issueBody));
         core.setOutput('template', template)
