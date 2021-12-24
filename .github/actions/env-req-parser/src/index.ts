@@ -1,6 +1,6 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
-import type { IssuesLabeledEvent } from "@octokit/webhooks-types";
+import type { IssuesLabeledEvent } from '@octokit/webhooks-types';
 import { parseAppName, parseApps, templateForInstaller } from './parser';
 
 async function run(): Promise<void> {

@@ -1,0 +1,25 @@
+{
+  "name": "winget-auto-install",
+  "version": "1.0.0",
+  "description": "A demo project to show how you can use GitHub Actions to fulfill infrastructure provisioning requests with Terraform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mormond/winget-auto-install.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mormond/winget-auto-install/issues"
+  },
+  "homepage": "https://github.com/mormond/winget-auto-install#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "@octokit/webhooks-types": "^5.0.0"
+  }
+}
