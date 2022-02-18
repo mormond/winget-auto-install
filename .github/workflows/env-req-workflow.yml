@@ -1,7 +1,7 @@
 name: Environment Creation Workflow
 on:
   issues:
-    types: [labeled]
+    #types: [labeled]
 
 jobs:
   parse:
@@ -23,8 +23,6 @@ jobs:
 
       - uses: ./.github/actions/env-req-parser
         id: parser
-        with:
-          templatePath: ./infrastructure/templates.json
 
   test:
     name: "Check Parse Outputs"
@@ -33,185 +31,20 @@ jobs:
     steps:
       - name: 'Ouputs'
         run: |
-          echo 'appName is: ${{ needs.parse.outputs.appName }}'
+          echo 'appName is: ${{ needs.parse.outputs.appname }}'
           echo 'template is: ${{ needs.parse.outputs.template }}'
           echo 'approved is: ${{ needs.parse.outputs.approved }}'
           echo 'ready is: ${{ needs.parse.outputs.ready }}'
 
-  plan:
-    if: needs.parse.outputs.approved == 'true'
-    name: "Plan Infrastructure"
-    runs-on: ubuntu-latest
+  add-comment:
     needs: parse
-
-    defaults:
-      run:
-        working-directory: infrastructure/${{ needs.parse.outputs.template }}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: 'Setup Credentials'
-        run: |
-          ARM_SUBSCRIPTION_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.subscriptionId')
-          echo "::add-mask::$ARM_SUBSCRIPTION_ID"
-          echo "ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID" >> $GITHUB_ENV
-          ARM_CLIENT_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientId')
-          echo "::add-mask::$ARM_CLIENT_ID"
-          echo "ARM_CLIENT_ID=$ARM_CLIENT_ID" >> $GITHUB_ENV
-          ARM_CLIENT_SECRET=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientSecret')
-          echo "::add-mask::$ARM_CLIENT_SECRET"
-          echo "ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET" >> $GITHUB_ENV
-          ARM_TENANT_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.tenantId')
-          echo "::add-mask::$ARM_TENANT_ID"
-          echo "ARM_TENANT_ID=$ARM_TENANT_ID" >> $GITHUB_ENV
-
-      - name: 'Setup Terraform'
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color -var resource_group_name="$RESOURCE_GROUP" -out "$GITHUB_WORKSPACE/issue-$ISSUE_NUMBER.plan"
-        continue-on-error: true
-        env:
-          RESOURCE_GROUP: ${{ needs.parse.outputs.appname }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-
-      - name: Upload Plan Artifact
-        if: steps.plan.outcome == 'success'
-        uses: actions/upload-artifact@v2
-        with:
-          name: issue-${{ github.event.issue.number }}.plan
-          path: ${{ github.workspace }}/issue-${{ github.event.issue.number }}.plan
-
-      - name: 'Add Comment to Issue'
-        uses: actions/github-script@v4
-        env:
-          VALIDATION: "terraform validate -no-color\n\n${{ steps.validate.outputs.stdout }}\n${{ steps.validate.outputs.stderr }}"
-          PLAN: "terraform plan -no-color\n\n${{ steps.plan.outputs.stdout }}\n${{ steps.plan.outputs.stderr }}"
-        with:
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            
-            <details><summary>Show Validation</summary>
-            
-            \`\`\`\n
-            ${process.env.VALIDATION}
-            \`\`\`
-            
-            </details>
-            
-            <details><summary>Show Plan</summary>
-            
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            
-            </details>
-            
-            *Approver: @${{ github.actor }}, App Name: \`${{ needs.parse.outputs.appname }}\`, Workflow: \`${{ github.workflow }}\`*`;
-              
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-  deploy:
-    if: needs.parse.outputs.ready == 'true'
-    name: "Deploy Infrastructure"
     runs-on: ubuntu-latest
-    needs: parse
-
-    defaults:
-      run:
-        working-directory: infrastructure/${{ needs.parse.outputs.template }}
-
+    permissions:
+      issues: write
     steps:
-      - uses: actions/checkout@v2
-
-      - name: 'Setup Credentials'
-        run: |
-          ARM_SUBSCRIPTION_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.subscriptionId')
-          echo "::add-mask::$ARM_SUBSCRIPTION_ID"
-          echo "ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID" >> $GITHUB_ENV
-          ARM_CLIENT_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientId')
-          echo "::add-mask::$ARM_CLIENT_ID"
-          echo "ARM_CLIENT_ID=$ARM_CLIENT_ID" >> $GITHUB_ENV
-          ARM_CLIENT_SECRET=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.clientSecret')
-          echo "::add-mask::$ARM_CLIENT_SECRET"
-          echo "ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET" >> $GITHUB_ENV
-          ARM_TENANT_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.tenantId')
-          echo "::add-mask::$ARM_TENANT_ID"
-          echo "ARM_TENANT_ID=$ARM_TENANT_ID" >> $GITHUB_ENV
-
-      - name: 'Setup Terraform'
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Download Plan Artifact
-        uses: dawidd6/action-download-artifact@v2
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
         with:
-          workflow: env-req-workflow.yml
-          path: ${{ github.workspace }}
-          name: issue-${{ github.event.issue.number }}.plan
-
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -no-color -auto-approve ${{ github.workspace }}/issue-${{ github.event.issue.number }}.plan
-        continue-on-error: true
-        
-      - name: 'Add Comment to Issue'
-        uses: actions/github-script@v4
-        env:
-          APPLY: "terraform apply -no-color -auto-approve ${{ github.workspace }}/issue-${{ github.event.issue.number }}.plan\n\n${{ steps.apply.outputs.stdout }}\n${{ steps.apply.outputs.stderr }}"
-        with:
-          script: |
-            const output = `#### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Apply 📖\`${{ steps.apply.outcome }}\`
-            
-            <details><summary>Show Apply</summary>
-            
-            \`\`\`\n
-            ${process.env.APPLY}
-            \`\`\`
-            
-            </details>
-
-            *Approver: @${{ github.actor }}, App Name: \`${{ needs.parse.outputs.appname }}\`, Workflow: \`${{ github.workflow }}\`*`;
-              
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
-
-      - name: Terraform Status
-        if: steps.apply.outcome == 'failure'
-        run: exit 1
+          issue-number: ${{ github.event.issue.number }}
+          body: '${{ needs.parse.outputs.template }}'
 

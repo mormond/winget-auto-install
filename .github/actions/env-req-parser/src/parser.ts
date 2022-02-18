@@ -55,7 +55,7 @@ export const templateForInstaller = (selectedApps: string[]) => {
         '\n)\n' + 
         'Foreach ($app in $apps_to_install) {\n' +
         '  $listApp = winget list --exact -q $app.id\n' +        
-        '  if (![String]::Join("", $listApp).Contains($app.name)) {\n' +
+        '  if (!($listApp -join "").Contains($app.name)) {\n' +
         '    Write-Host\n' + 
         '    Write-Host "Installing:" $app.name\n' +
         '    winget install --exact --silent --accept-package-agreements $app.id\n' +
