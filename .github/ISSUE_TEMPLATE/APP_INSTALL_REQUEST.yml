@@ -1,0 +1,37 @@
+name: Winget App Install Script Request
+description: Select the apps you wish to install
+title: "[New Script]: "
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please complete the following:
+
+  - type: checkboxes
+    id: apps
+    attributes:
+      label: Which apps would you like to include in the script?
+      description: You may select more than one.
+      options:
+        - label: App Installer
+        - label: Windows Terminal
+        - label: PowerShell
+        - label: PowerToys (Preview)
+        - label: Visual Studio Code
+        - label: Power BI Desktop
+        - label: EarTrumpet
+        - label: Netflix
+        - label: MusicBee
+        - label: ShareX
+        - label: Ditto Clipboard
+        - label: PureText
+        - label: Ubuntu
+        - label: Sysinternals Suite
+        - label: Microsoft Whiteboard
+        - label: "Microsoft To Do: Lists, Tasks & Reminders"
+        - label: 7-Zip
+        - label: Microsoft 365 Apps for enterprise
+        - label: Microsoft Teams
+        - label: OneNote for Windows 10
+        
