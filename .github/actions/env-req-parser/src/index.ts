@@ -10,7 +10,6 @@ async function run(): Promise<void> {
         const payload = github.context.payload as IssuesLabeledEvent;
         console.log(payload);
 
-
         const approved = ((payload.label?.name || "none") === "approved");
         const ready = ((payload.label?.name || "none") === "ready");
 

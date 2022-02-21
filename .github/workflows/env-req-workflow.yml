@@ -24,7 +24,7 @@ jobs:
       - uses: ./.github/actions/env-req-parser
         id: parser
 
-  test:
+  check:
     name: "Check Parse Outputs"
     runs-on: ubuntu-latest
     needs: parse
@@ -35,8 +35,9 @@ jobs:
           echo 'template is: ${{ needs.parse.outputs.template }}'
           echo 'approved is: ${{ needs.parse.outputs.approved }}'
           echo 'ready is: ${{ needs.parse.outputs.ready }}'
-
+    
   add-comment:
+    if: needs.parse.outputs.approved && needs.parse.outputs.ready
     needs: parse
     runs-on: ubuntu-latest
     permissions:
