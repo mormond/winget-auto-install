@@ -11,8 +11,8 @@ async function run(): Promise<void> {
         console.log(payload);
 
 
-        const approved = true;// ((payload.label?.name || "none") === "approved");
-        const ready = true; //((payload.label?.name || "none") === "ready");
+        const approved = ((payload.label?.name || "none") === "approved");
+        const ready = ((payload.label?.name || "none") === "ready");
 
         if (!approved && !ready) {
             core.setOutput('approved', 'false')
