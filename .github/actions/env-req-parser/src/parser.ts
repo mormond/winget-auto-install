@@ -6,6 +6,21 @@ const apps = new Map<string, string>([
     ['PowerShell', '9MZ1SNWT0N5D'],
     ['PowerToys (Preview)', 'Microsoft.PowerToys'],
     ['Visual Studio Code', 'XP9KHM4BK9FZ7Q'],
+    ['Power BI Desktop', '9NTXR16HNW1T'],
+    ['EarTrumpet', '9NBLGGH516XP'],
+    ['Netflix', '9WZDNCRFJ3TJ'],
+    ['MusicBee', '9P4CLT2RJ1RS'],
+    ['ShareX', '9NBLGGH4Z1SP'],
+    ['Ditto Clipboard', '9NBLGGH3ZBJQ'],
+    ['PureText', '9PKJV6319QTL'],
+    ['Ubuntu', '9NBLGGH4MSV6'],
+    ['Sysinternals Suite', '9P7KNL5RWT25'],
+    ['Microsoft Whiteboard', '9MSPC6MP8FM4'],
+    ['Microsoft To Do: Lists, Tasks & Reminders', '9NBLGGH5R558'],
+    ['7-Zip', '7zip.7zip'],
+    ['Microsoft 365 Apps for enterprise', 'Microsoft.Office'],
+    ['Microsoft Teams', 'Microsoft.Teams'],
+    ['OneNote for Windows 10', '9WZDNCRFHVJL']
 ]);
 
 export const parseAppName = (body: string) => {
