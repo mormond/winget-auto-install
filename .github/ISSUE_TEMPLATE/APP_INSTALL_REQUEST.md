@@ -14,3 +14,18 @@ Business Justification:
 - [ ] PowerShell
 - [ ] PowerToys (Preview)
 - [ ] Visual Studio Code
+- [ ] Power BI Desktop
+- [ ] EarTrumpet
+- [ ] Netflix
+- [ ] MusicBee
+- [ ] ShareX
+- [ ] Ditto Clipboard
+- [ ] PureText
+- [ ] Ubuntu
+- [ ] Sysinternals Suite
+- [ ] Microsoft Whiteboard
+- [ ] Microsoft To Do: Lists, Tasks & Reminders
+- [ ] 7-Zip
+- [ ] Microsoft 365 Apps for enterprise
+- [ ] Microsoft Teams
+- [ ] OneNote for Windows 10
