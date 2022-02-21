@@ -37,7 +37,8 @@ jobs:
           echo 'ready is: ${{ needs.parse.outputs.ready }}'
     
   add-comment:
-    if: needs.parse.outputs.approved && needs.parse.outputs.ready
+    name: "Add Winget Script"
+    if: (needs.parse.outputs.approved == true) && (needs.parse.outputs.ready == true)
     needs: parse
     runs-on: ubuntu-latest
     permissions:
@@ -48,4 +49,3 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: '${{ needs.parse.outputs.template }}'
-
