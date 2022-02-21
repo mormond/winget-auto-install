@@ -23,22 +23,6 @@ const apps = new Map<string, string>([
     ['OneNote for Windows 10', '9WZDNCRFHVJL']
 ]);
 
-export const parseAppName = (body: string) => {
-    const result = /Application Name: (.+)/.exec(body);
-    if (result && result.length > 1) {
-        return result[1].trim();
-    }
-    throw new Error("Could not parse application name");
-};
-
-export const parseBusinessJustification = (body: string) => {
-    const result = body.match(/Business Justification: ([\s\S]+?)###/) ?? [];
-    if (result.length > 1) {
-        return result[1].trim();
-    }
-    throw new Error("Could not parse application name");
-};
-
 const selectedLines: (body: string) => string[] = (body: string) => {
     const matches = body.match(/- \[[^ ]\] ([^\n]+)/g) ?? [];
     return matches.map(line => /\] (.+)/.exec(line)![1]);
