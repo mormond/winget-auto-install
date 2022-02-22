@@ -34,7 +34,7 @@ jobs:
     
   add-comment:
     name: "Add Winget Script"
-    if: needs.parse.outputs.approved == true
+    if: needs.parse.outputs.approved == 'true'
     needs: parse
     runs-on: ubuntu-latest
     permissions:
