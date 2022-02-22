@@ -8,7 +8,6 @@ jobs:
     name: "Parse GitHub Issue"
     runs-on: ubuntu-latest
     outputs:
-      appname: ${{steps.parser.outputs.appName}}
       template: ${{steps.parser.outputs.template}}
       approved: ${{steps.parser.outputs.approved}}
     steps:
@@ -30,7 +29,6 @@ jobs:
     steps:
       - name: 'Ouputs'
         run: |
-          echo 'appName is: ${{ needs.parse.outputs.appname }}'
           echo 'template is: ${{ needs.parse.outputs.template }}'
           echo 'approved is: ${{ needs.parse.outputs.approved }}'
     
