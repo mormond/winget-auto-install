@@ -64,6 +64,6 @@ export const templateForInstaller = (selectedApps: string[]) => {
         '  }\n' +
         '}\n';     
 
-    return startString + appString + endString;
+    return '```' + startString + appString + endString + '```';
 
 }

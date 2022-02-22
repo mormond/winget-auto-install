@@ -8,7 +8,7 @@ async function run(): Promise<void> {
         console.log('Action starting...');
 
         const payload = github.context.payload as IssuesLabeledEvent;
-        console.log(payload);
+        //console.log(payload);
 
         const approved = ((payload.label?.name || "none") === "approved");
 

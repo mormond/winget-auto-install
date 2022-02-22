@@ -41,7 +41,7 @@ jobs:
       issues: write
     steps:
       - name: Add comment
-        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae
+        uses: peter-evans/create-or-update-comment@63e171afd597dc4be7b89306575bccc262e512ef
         with:
           issue-number: ${{ github.event.issue.number }}
           body: '${{ needs.parse.outputs.template }}'
