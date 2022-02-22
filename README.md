@@ -1,5 +1,5 @@
 # Demo - winget script generator
-A demo to generate a PowerShell script to automate the install of apps via winget
+A demo to generate a PowerShell script to automate the install of apps via [winget](https://docs.microsoft.com/windows/package-manager/winget/)
 
 # Usage
  - Create a [new issue](https://github.com/mormond/winget-auto-install/issues)
