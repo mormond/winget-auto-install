@@ -2,7 +2,7 @@
 A demo to generate a PowerShell script to automate the install of apps via winget
 
 # Usage
- - Create a new issue
+ - Create a [new issue](https://github.com/mormond/winget-auto-install/issues)
  - Give it a name and select the apps you'd like to be installed by the script
  - Mark is as "approved" (ie add the approved label)
  - Wait until the action completes (typically 30s)
