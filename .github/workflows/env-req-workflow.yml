@@ -1,7 +1,7 @@
 name: Environment Creation Workflow
 on:
   issues:
-    #types: [labeled]
+    types: [labeled]
 
 jobs:
   parse:
@@ -11,7 +11,6 @@ jobs:
       appname: ${{steps.parser.outputs.appName}}
       template: ${{steps.parser.outputs.template}}
       approved: ${{steps.parser.outputs.approved}}
-      ready: ${{steps.parser.outputs.ready}}
     steps:
       - uses: actions/checkout@v2
 
@@ -34,11 +33,10 @@ jobs:
           echo 'appName is: ${{ needs.parse.outputs.appname }}'
           echo 'template is: ${{ needs.parse.outputs.template }}'
           echo 'approved is: ${{ needs.parse.outputs.approved }}'
-          echo 'ready is: ${{ needs.parse.outputs.ready }}'
     
   add-comment:
     name: "Add Winget Script"
-    if: (needs.parse.outputs.approved == true) && (needs.parse.outputs.ready == true)
+    if: (needs.parse.outputs.approved == true)
     needs: parse
     runs-on: ubuntu-latest
     permissions:

@@ -15,6 +15,5 @@ outputs:
     description: 'Refers to the template in the ./infrastructure directory [webapp,aks,default]'
   approved:
     description: 'Validates that the issue has an approved label applied'
-  ready:
-    description: 'Validates that the issue has an ready label applied'
+
 

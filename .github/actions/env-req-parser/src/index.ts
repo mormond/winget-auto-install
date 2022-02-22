@@ -11,11 +11,9 @@ async function run(): Promise<void> {
         console.log(payload);
 
         const approved = ((payload.label?.name || "none") === "approved");
-        const ready = ((payload.label?.name || "none") === "ready");
 
-        if (!approved && !ready) {
+        if (!approved) {
             core.setOutput('approved', 'false')
-            core.setOutput('ready', 'false')
             return
         }
 
@@ -30,7 +28,6 @@ async function run(): Promise<void> {
 
         core.setOutput('template', template);
         core.setOutput('approved', approved ? 'true' : 'false');
-        core.setOutput('ready', ready ? 'true' : 'false');
 
     } catch (error) {
         core.setFailed(error.message);
