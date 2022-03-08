@@ -12,6 +12,7 @@ const apps = new Map<string, string>([
     ['MusicBee', '9P4CLT2RJ1RS'],
     ['ShareX', '9NBLGGH4Z1SP'],
     ['Ditto Clipboard', '9NBLGGH3ZBJQ'],
+    ['Oh My Posh', 'JanDeDobbeleer.OhMyPosh'],
     ['PureText', '9PKJV6319QTL'],
     ['Ubuntu', '9NBLGGH4MSV6'],
     ['Sysinternals Suite', '9P7KNL5RWT25'],
